@@ -212,36 +212,52 @@ fprintd-verify -f right-index-finger takumi     # 期望 Verified
 
 ---
 
-## 7. （可选）KDE 锁屏启用指纹
+## 7. 锁屏与登录界面
 
-默认不启用。确认 `fprintd-verify` 已通过，**并在另一个终端留一个 root shell** 再操作。
+### 7.1 KDE 锁屏：默认可用，无需配置
 
-```bash
-sudo cp -a /etc/pam.d/kde /etc/pam.d/kde.bak.$(date +%F)
+`kscreenlocker` 自带 PAM 服务 `/usr/lib/pam.d/kde-fingerprint`：
+
+```
+auth       required                    pam_shells.so
+auth       requisite                   pam_nologin.so
+auth       requisite                   pam_faillock.so      preauth
+-auth      required                    pam_fprintd.so
+auth       optional                    pam_permit.so
+auth       required                    pam_env.so
 ```
 
-在 `/etc/pam.d/kde` 的 `auth` 段最前面加一行：
+所以锁屏时直接按指纹即可解锁，**不需要修改 `/etc/pam.d`**。本机实测通过。
+
+> 注意 `/usr/lib/pam.d` 是软件包提供的默认值；若你在 `/etc/pam.d` 建了同名文件，
+> 会覆盖它。
+
+### 7.2 SDDM 登录界面：默认不支持
+
+`/etc/pam.d/sddm` 没有 `pam_fprintd.so`，图形登录界面不会弹指纹。
+要启用需要改 PAM，**有把自己锁在系统外的风险**，且必须在另一个终端保留 root shell。
+
+```bash
+sudo cp -a /etc/pam.d/sddm /etc/pam.d/sddm.bak.$(date +%F)
+```
+
+在 `auth` 段最前面加：
 
 ```
 auth sufficient pam_fprintd.so
 ```
 
-验证：
+验证与回退：
 
 ```bash
-sudo -k && sudo true      # 密码仍然可用
-loginctl lock-session     # 锁屏应出现指纹提示，同时保留密码输入
+sudo -k && sudo true                       # 密码仍可用
+# 锁屏/注销后测试登录；失败则：
+sudo cp -a /etc/pam.d/sddm.bak.* /etc/pam.d/sddm
 ```
 
-出问题立即还原：
+### 7.3 其他 PAM 消费方
 
-```bash
-sudo cp -a /etc/pam.d/kde.bak.* /etc/pam.d/kde
-```
-
-> 这一步有把自己锁在系统外的风险。不确定就跳过——跳过不影响设备本身可用。
-
----
+`sudo`、`polkit`、`su` 等默认都不走 fprintd。不建议改，收益低而锁死风险高。
 
 ## 8. 故障排查
 
@@ -254,7 +270,7 @@ sudo cp -a /etc/pam.d/kde.bak.* /etc/pam.d/kde
 | `PMK ... invalid` 但 `success=1` | 首次启动的正常现象 | 忽略，第二次启动走缓存 |
 | `fprintd-enroll` 报 `Not Authorized` | 非活动会话 / 无 polkit 代理 | 图形界面，或 `pkttyagent --process $$ &` |
 | `Device already in use` | 被其他进程占用 | `sudo systemctl restart fprintd` |
-| 锁屏没有指纹选项 | `/etc/pam.d/kde` 未配置 | 见第 7 节 |
+| 锁屏没有指纹选项 | fprintd 未运行 / 未录入 / 被 `/etc/pam.d/kde` 覆盖 | 见第 7.1 节 |
 | `git clone` 卡住 | SSH 22 被墙 | 见第 3 节的 443 方式 |
 
 实时观察：
@@ -300,7 +316,7 @@ git checkout -- fingerprint/
 - [ ] `./scripts/verify.sh` 全部 PASS
 - [ ] `fprintd-list` 能看到已录入的手指
 - [ ] `fprintd-verify` 返回 Verified
-- [ ] 密码登录仍然可用
+- [ ] KDE 锁屏按指纹可解锁，密码仍可用
 
 ---
 

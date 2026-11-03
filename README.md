@@ -137,7 +137,7 @@ fprintd  ←─ D-Bus ─←  libfprint  ←─ goodix51a0 插件
 | `makepkg` 报 `SOURCE_MANIFEST` 校验失败 | 源码被改过而清单未更新，见 runbook §8 |
 | 日志反复 `A8 ACK failed` | 引脚/极性不符，本仓库不适用于该机器 |
 | `fprintd-enroll` 报 `Not Authorized` | 非活动会话，用图形界面或 `pkttyagent` |
-| 锁屏不弹指纹 | `/etc/pam.d/kde` 未配置，见 runbook §7 |
+| 锁屏不弹指纹 | 先确认 fprintd 运行且已录入；KDE 锁屏由自带的 `kde-fingerprint` PAM 服务提供，见 runbook §7 |
 
 完整排查表见 [docs/runbook.md](docs/runbook.md) 第 8 节。
 

@@ -260,8 +260,9 @@ $ busctl --system introspect ... .name
 3. **引脚写死**：`79/259` 来自当前 BIOS 的 GNVS 配置，**升级 BIOS 后需重新推导**
    （附录 A）。
 4. **极性写死**：`GX51_RESET_ASSERT=1`。换主板/机型必须重测。
-5. **锁屏未集成**：`/etc/pam.d/kde` 没有 `pam_fprintd.so`，KDE 锁屏不会弹指纹。
-   加 PAM 行有锁死风险，见 runbook 第 7 节。
+5. **锁屏可用，登录界面不可用**：KDE 锁屏由 `kscreenlocker` 自带的
+   `/usr/lib/pam.d/kde-fingerprint`（内含 `pam_fprintd.so`）提供，开箱即用；
+   但 SDDM 的 `/etc/pam.d/sddm` 没有集成 fprintd，图形登录界面仍需另行配置。
 6. **包冲突**：`libfprint-goodix51a0` 与官方 `libfprint` 互斥。若日后有包强制拉取
    `libfprint`，会与当前包冲突，需要重新构建或回滚。
 
