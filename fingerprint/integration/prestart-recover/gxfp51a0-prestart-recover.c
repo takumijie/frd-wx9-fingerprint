@@ -103,7 +103,7 @@ open_int34bb_gpiochip (void)
         continue;
 
       if (ioctl (fd, GPIO_GET_CHIPINFO_IOCTL, &info) == 0 &&
-          strncmp (info.label, "INT34BB", 7) == 0 &&
+          strncmp (info.label, "INT3450", 7) == 0 &&
           info.lines > GX51_RESET_LINE)
         return fd;
 

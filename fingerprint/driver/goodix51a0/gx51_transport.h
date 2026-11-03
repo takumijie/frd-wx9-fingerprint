@@ -5,8 +5,14 @@
 #include <linux/spi/spidev.h>
 
 #define GX51_MAX_FRAME 65535u
-#define GX51_RESET_LINE 264u
-#define GX51_EXPECTED_HWIRQ 48u
+/* FRD-WX9 port: ACPI \_SB.PCI0.GPI0 (INT3450). Real pins come from
+ * GNVS GFPI/GFPS via GNUM(): GpioInt = 64+15 = 79, GpioIo = 256+3 = 259. */
+#define GX51_RESET_LINE 259u
+/* FRD-WX9: bench-verified active-HIGH reset on GNVS pin 259; asserting HIGH
+ * then releasing LOW is the only combination that yields an A8 response. */
+#define GX51_RESET_ASSERT  1
+#define GX51_RESET_RELEASE 0
+#define GX51_EXPECTED_HWIRQ 79u
 #define GX51_SPI_READ_CHUNK_MAX 4096u
 
 struct gx51_outer {

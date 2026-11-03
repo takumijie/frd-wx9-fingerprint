@@ -173,7 +173,7 @@ static int gx51_open_int34bb(void)
             continue;
 
         if (ioctl(fd, GPIO_GET_CHIPINFO_IOCTL, &info) == 0 &&
-            strncmp(info.label, "INT34BB", 7) == 0 &&
+            strncmp(info.label, "INT3450", 7) == 0 &&
             info.lines > GX51_RESET_LINE)
             return fd;
 
@@ -264,7 +264,7 @@ int gx51_reset_gpio264_short(void)
     req.config.flags = GPIO_V2_LINE_FLAG_OUTPUT;
     req.config.num_attrs = 1;
     req.config.attrs[0].attr.id = GPIO_V2_LINE_ATTR_ID_OUTPUT_VALUES;
-    req.config.attrs[0].attr.values = 0; /* explicitly LOW before pulse */
+    req.config.attrs[0].attr.values = GX51_RESET_RELEASE; /* idle before pulse */
     req.config.attrs[0].mask = 1;
     strncpy(req.consumer, "goodix51a0-native", sizeof req.consumer - 1);
     if (ioctl(chip, GPIO_V2_GET_LINE_IOCTL, &req) < 0 || req.fd < 0) {
@@ -273,12 +273,12 @@ int gx51_reset_gpio264_short(void)
     }
 
     val.mask = 1;
-    val.bits = 1; /* HIGH reset assertion */
+    val.bits = GX51_RESET_ASSERT; /* active-HIGH assertion */
     if (ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val) < 0)
         goto fail;
     if (gx51_sleep_us(10000) < 0)
         goto fail;
-    val.bits = 0; /* LOW release */
+    val.bits = GX51_RESET_RELEASE; /* release */
     if (ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val) < 0)
         goto fail;
     close(req.fd);
@@ -313,13 +313,13 @@ int gx51_reset_gpio264(void)
     }
 
     val.mask = 1;
-    val.bits = 1; /* HIGH: active reset */
+    val.bits = GX51_RESET_ASSERT; /* active-HIGH reset */
     if (ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val) < 0)
         goto fail;
     if (gx51_sleep_us(300000) < 0)
         goto fail;
 
-    val.bits = 0; /* LOW: MCU runs */
+    val.bits = GX51_RESET_RELEASE; /* MCU runs */
     if (ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val) < 0)
         goto fail;
     if (gx51_sleep_us(600000) < 0)
@@ -335,7 +335,7 @@ fail:
      * has been acquired, every error path explicitly releases active-HIGH reset
      * before closing the GPIO request. */
     val.mask = 1;
-    val.bits = 0;
+    val.bits = GX51_RESET_RELEASE;
     (void)ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val);
     close(req.fd);
     close(chip);

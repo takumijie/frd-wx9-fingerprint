@@ -1,0 +1,111 @@
+diff --git a/fingerprint/driver/goodix51a0/SOURCE_MANIFEST.sha256 b/fingerprint/driver/goodix51a0/SOURCE_MANIFEST.sha256
+index 42a5e91..cf67dc4 100644
+--- a/fingerprint/driver/goodix51a0/SOURCE_MANIFEST.sha256
++++ b/fingerprint/driver/goodix51a0/SOURCE_MANIFEST.sha256
+@@ -6,8 +6,8 @@ bb476c1851953988b07185a6e32f8b207b78f03819157e334d564c3999d49c1d  goodix_sift.c
+ 6eb2800e19d942b2d08bd702e0db8de854e1c0443b382092a31981dc5216bf5b  goodix_sift.h
+ 7ee509a7154363b8db8c795a5019e18ed77d646cd9f56937f4f02ead8e974026  fastbrief/sigfm.c
+ e10851c8269156017670d49b2d4d5804d70ae90b6f6db6c749750913c419b307  fastbrief/sigfm.h
+-adf70148c372928b6195ea53f03f08b20057d3a1cb14e6e0a267ca7d35031e81  gx51_transport.c
+-250c794ac4b36867f4bb0c28c481e6da8bb3275c122e14c811e23a91dfd77662  gx51_transport.h
++71cc6cd4285c9246d3c1b6f7d166150b80ec4fbf2595b9e8549f9ddc226235e2  gx51_transport.c
++0818cb06ba801cb5b3cb65c59139c011947bc17eecc2305e99ccd3e6e4221c3c  gx51_transport.h
+ 74ecc10c973994401142fab35f184ae187aefe715a24ef1a97eb82da0e538040  gx51_target.c
+ 702afb130290a5e96c151dd051b525fd2dc0bb1d56d5d226007c749797545626  gx51_target.h
+ 8d546e9d833c93b5afb3863c8a0aaa692a4b5af3c59f2770e0f3827e28a99427  gx51_factory_pmk.c
+diff --git a/fingerprint/driver/goodix51a0/gx51_transport.c b/fingerprint/driver/goodix51a0/gx51_transport.c
+index 4777977..7718fc2 100644
+--- a/fingerprint/driver/goodix51a0/gx51_transport.c
++++ b/fingerprint/driver/goodix51a0/gx51_transport.c
+@@ -173,7 +173,7 @@ static int gx51_open_int34bb(void)
+             continue;
+ 
+         if (ioctl(fd, GPIO_GET_CHIPINFO_IOCTL, &info) == 0 &&
+-            strncmp(info.label, "INT34BB", 7) == 0 &&
++            strncmp(info.label, "INT3450", 7) == 0 &&
+             info.lines > GX51_RESET_LINE)
+             return fd;
+ 
+@@ -264,7 +264,7 @@ int gx51_reset_gpio264_short(void)
+     req.config.flags = GPIO_V2_LINE_FLAG_OUTPUT;
+     req.config.num_attrs = 1;
+     req.config.attrs[0].attr.id = GPIO_V2_LINE_ATTR_ID_OUTPUT_VALUES;
+-    req.config.attrs[0].attr.values = 0; /* explicitly LOW before pulse */
++    req.config.attrs[0].attr.values = GX51_RESET_RELEASE; /* idle before pulse */
+     req.config.attrs[0].mask = 1;
+     strncpy(req.consumer, "goodix51a0-native", sizeof req.consumer - 1);
+     if (ioctl(chip, GPIO_V2_GET_LINE_IOCTL, &req) < 0 || req.fd < 0) {
+@@ -273,12 +273,12 @@ int gx51_reset_gpio264_short(void)
+     }
+ 
+     val.mask = 1;
+-    val.bits = 1; /* HIGH reset assertion */
++    val.bits = GX51_RESET_ASSERT; /* active-HIGH assertion */
+     if (ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val) < 0)
+         goto fail;
+     if (gx51_sleep_us(10000) < 0)
+         goto fail;
+-    val.bits = 0; /* LOW release */
++    val.bits = GX51_RESET_RELEASE; /* release */
+     if (ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val) < 0)
+         goto fail;
+     close(req.fd);
+@@ -313,13 +313,13 @@ int gx51_reset_gpio264(void)
+     }
+ 
+     val.mask = 1;
+-    val.bits = 1; /* HIGH: active reset */
++    val.bits = GX51_RESET_ASSERT; /* active-HIGH reset */
+     if (ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val) < 0)
+         goto fail;
+     if (gx51_sleep_us(300000) < 0)
+         goto fail;
+ 
+-    val.bits = 0; /* LOW: MCU runs */
++    val.bits = GX51_RESET_RELEASE; /* MCU runs */
+     if (ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val) < 0)
+         goto fail;
+     if (gx51_sleep_us(600000) < 0)
+@@ -335,7 +335,7 @@ fail:
+      * has been acquired, every error path explicitly releases active-HIGH reset
+      * before closing the GPIO request. */
+     val.mask = 1;
+-    val.bits = 0;
++    val.bits = GX51_RESET_RELEASE;
+     (void)ioctl(req.fd, GPIO_V2_LINE_SET_VALUES_IOCTL, &val);
+     close(req.fd);
+     close(chip);
+diff --git a/fingerprint/driver/goodix51a0/gx51_transport.h b/fingerprint/driver/goodix51a0/gx51_transport.h
+index f871dad..8998961 100644
+--- a/fingerprint/driver/goodix51a0/gx51_transport.h
++++ b/fingerprint/driver/goodix51a0/gx51_transport.h
+@@ -5,8 +5,14 @@
+ #include <linux/spi/spidev.h>
+ 
+ #define GX51_MAX_FRAME 65535u
+-#define GX51_RESET_LINE 264u
+-#define GX51_EXPECTED_HWIRQ 48u
++/* FRD-WX9 port: ACPI \_SB.PCI0.GPI0 (INT3450). Real pins come from
++ * GNVS GFPI/GFPS via GNUM(): GpioInt = 64+15 = 79, GpioIo = 256+3 = 259. */
++#define GX51_RESET_LINE 259u
++/* FRD-WX9: bench-verified active-HIGH reset on GNVS pin 259; asserting HIGH
++ * then releasing LOW is the only combination that yields an A8 response. */
++#define GX51_RESET_ASSERT  1
++#define GX51_RESET_RELEASE 0
++#define GX51_EXPECTED_HWIRQ 79u
+ #define GX51_SPI_READ_CHUNK_MAX 4096u
+ 
+ struct gx51_outer {
+diff --git a/fingerprint/integration/prestart-recover/gxfp51a0-prestart-recover.c b/fingerprint/integration/prestart-recover/gxfp51a0-prestart-recover.c
+index 6dc9a4b..d32a23c 100644
+--- a/fingerprint/integration/prestart-recover/gxfp51a0-prestart-recover.c
++++ b/fingerprint/integration/prestart-recover/gxfp51a0-prestart-recover.c
+@@ -103,7 +103,7 @@ open_int34bb_gpiochip (void)
+         continue;
+ 
+       if (ioctl (fd, GPIO_GET_CHIPINFO_IOCTL, &info) == 0 &&
+-          strncmp (info.label, "INT34BB", 7) == 0 &&
++          strncmp (info.label, "INT3450", 7) == 0 &&
+           info.lines > GX51_RESET_LINE)
+         return fd;
+ 
