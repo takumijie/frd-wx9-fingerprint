@@ -1,4 +1,4 @@
-# FRD-WX9 指纹驱动（Goodix GXFP51A0）
+# FRD-WX9 指纹驱动（Goodix GXFP51A0）(荣耀猎人v700 Linux指纹驱动)
 
 HONOR FRD-WX9 上 Goodix GXFP51A0 / GF3658 ST411 指纹传感器的 Linux 驱动。
 基于 [GodsQuantum/huawei-matebook-13-linux](https://github.com/GodsQuantum/huawei-matebook-13-linux)
@@ -47,11 +47,11 @@ GXFP51A0 FAST_READY in 89 ms
 # 1. 依赖
 sudo pacman -S --needed base-devel git python pkgconf cairo glib2-devel libgusb
 
-# 2. 获取（若 22 端口被墙，用文末的 443 方式）
+# 2. 获取
 git clone git@github.com:takumijie/frd-wx9-fingerprint.git
 cd frd-wx9-fingerprint
 
-# 3. 构建（不需要 root，约 2 分钟）
+# 3. 构建
 ./scripts/build.sh
 
 # 4. 安装 + 绑定 spidev + 启动 fprintd + 自动校验
@@ -163,10 +163,3 @@ sudo systemctl restart fprintd
 - [GodsQuantum/huawei-matebook-13-linux](https://github.com/GodsQuantum/huawei-matebook-13-linux)
   —— 驱动本体与 GXFP51A0 协议实现
 - [libfprint](https://gitlab.freedesktop.org/libfprint/libfprint) —— 指纹框架
-
-## 附：22 端口不可用时的克隆方式
-
-```bash
-GIT_SSH_COMMAND='ssh -p 443' \
-  git clone ssh://git@ssh.github.com:443/takumijie/frd-wx9-fingerprint.git
-```

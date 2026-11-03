@@ -92,13 +92,6 @@ cd frd-wx9-fingerprint
 ./scripts/build.sh
 ```
 
-若 22 端口不通（国内网络常见），换 443：
-
-```bash
-GIT_SSH_COMMAND='ssh -p 443' \
-  git clone ssh://git@ssh.github.com:443/takumijie/frd-wx9-fingerprint.git
-```
-
 ✅ 预期结尾：
 
 ```
