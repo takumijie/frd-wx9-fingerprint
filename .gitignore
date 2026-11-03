@@ -1,0 +1,19 @@
+# 构建产物（makepkg 会在 packaging/arch 下生成）
+fingerprint/packaging/arch/src/
+fingerprint/packaging/arch/pkg/
+fingerprint/packaging/arch/*.pkg.tar.zst
+fingerprint/packaging/arch/*.pkg.tar.xz
+*.pkg.tar.zst
+*.pkg.tar.xz
+*.log
+
+# 内核模块构建中间产物
+tools/gnvsmod/*.o
+tools/gnvsmod/*.ko
+tools/gnvsmod/*.mod
+tools/gnvsmod/*.mod.c
+tools/gnvsmod/*.symvers
+tools/gnvsmod/.*.cmd
+tools/gnvsmod/Module.symvers
+tools/gnvsmod/modules.order
+tools/fp_probe

@@ -1,0 +1,54 @@
+pkgname=libfprint-goodix51a0
+pkgver=1.94.100.goodix51a0.qa59
+pkgrel=2
+pkgdesc="libfprint 1.94.100 with native Goodix GXFP51A0 SPI driver"
+arch=('x86_64')
+url="https://fprint.freedesktop.org/"
+install=libfprint-goodix51a0.install
+license=('LGPL-2.1-or-later')
+depends=('bash' 'glib2' 'glibc' 'libgcc' 'libgudev' 'libgusb' 'openssl' 'pixman' 'kmod' 'systemd')
+makedepends=('git' 'python' 'pkgconf' 'cairo' 'glib2-devel')
+provides=('libfprint=1.94.100' 'libfprint-2.so')
+conflicts=('libfprint')
+options=('!debug')
+
+_fp_root="$(cd "$startdir/../.." && pwd)"
+
+build() {
+  local build_root="$srcdir/gxfp51a0-public-build"
+
+  GXFP51A0_BUILD_ROOT="$build_root" \
+  GXFP51A0_MESON_PREFIX=/usr \
+    "$_fp_root/scripts/build-libfprint-v1.94.100.sh"
+
+
+}
+
+package() {
+  local build_root="$srcdir/gxfp51a0-public-build"
+
+  export PATH="$build_root/build-tools-venv/bin:$PATH"
+  DESTDIR="$pkgdir" meson install -C "$build_root/libfprint-build"
+
+  install -Dm644 "$startdir/fprintd-goodix51a0.conf" \
+    "$pkgdir/usr/lib/systemd/system/fprintd.service.d/50-goodix51a0-runtime.conf"
+
+  # Keep the core driver desktop-agnostic. libfprint/fprintd is the stable
+  # cross-distro boundary; KDE/GNOME/display managers consume it through their
+  # native PAM/fprintd integration. Historical Plasma/QML compatibility helpers
+  # remain in the repository as explicit opt-in tooling only.
+
+  # No GXFP service, wake hook or external prewarm binary. The installed
+  # native libfprint GXFP51A0 handles idle-suspend, hardware park, resume,
+  # and the normal Claim/Open preparation inside the existing fprintd daemon.
+
+  install -d "$pkgdir/usr/lib/systemd/system/graphical.target.wants"
+  ln -s ../fprintd.service \
+    "$pkgdir/usr/lib/systemd/system/graphical.target.wants/fprintd.service"
+
+
+  if [[ -f "$build_root/libfprint-v1.94.100/COPYING" ]]; then
+    install -Dm644 "$build_root/libfprint-v1.94.100/COPYING" \
+      "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+  fi
+}

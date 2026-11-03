@@ -1,0 +1,82 @@
+trial_id,datetime_local,version,kind,first_touch,poses,prewarm_ms,fast_ready_ms,press_to_terminal_ms,greeter_to_terminal_ms,wake_to_terminal_ms,score,threshold,evidence
+reboot-20261023-1,2026-10-23T13:12:03+02:00,rel71.55,REBOOT,pass,1,,,,,,10,7,rel71.55-pegasus-20261023-postinstall-gate.md
+lock-20261023-1,2026-10-23T13:17:00+02:00,rel71.55,LOCK,pass,1,,83,,,,15,7,rel71.55-pegasus-20261023-postinstall-gate.md
+lock-20261023-2,2026-10-23T13:42:51.156+02:00,rel71.55,LOCK,fail,2,,84,,,,10,7,rel71.55-pegasus-20261023-postinstall-gate.md
+s3-20261023-1,2026-10-23T14:11:54.797+02:00,rel71.55,S3,pass,1,4254,84,2073,,6951,14,7,rel71.55-pegasus-20261023-postinstall-gate.md
+cold-20261024-1,2026-10-24T12:41:23+02:00,rel71.56,COLD,fail,2,,82,,,,7,7,rel71.56-rejected-evidence-summary.md
+s3-20261024-fast,2026-10-24T15:11:13.860+02:00,rel71.56,S3,fail,multiple,27725,82,1950,,33595,10,7,rel71.56-rejected-evidence-summary.md
+lock-20261024-1,2026-10-24T15:21:10.733+02:00,rel71.55,LOCK,pass,1,,72,1711,3488,,15,7,rel71.55-pegasus-20261023-postinstall-gate.md
+lock-20261024-2,2026-10-24T15:25:02.751+02:00,rel71.55,LOCK,pass,1,,72,1754,4555,,7,7,rel71.55-pegasus-20261023-postinstall-gate.md
+lock-20261024-3,2026-10-24T15:36:11.402+02:00,rel71.55,LOCK,pass,1,,83,1739,4391,,9,7,rel71.55-pegasus-20261023-postinstall-gate.md
+s3-20261024-2,2026-10-24T18:24:49.821+02:00,rel71.55,S3,pass,1,6127,83,1955,,10450,7,7,rel71.55-pegasus-20261023-postinstall-gate.md
+s3-20261024-3,2026-10-24T19:06:06.964+02:00,rel71.55,S3,fail,3-4,3798,83,17090,,22377,16,7,rel71.55-pegasus-20261023-postinstall-gate.md
+lock-20261024-7158,2026-10-24T19:33:31.450+02:00,rel71.58,LOCK,pass,1,,293,1902,4007,,11,7,rel71.58-s3-stale-rebase-qa-20261024.md
+s3-20261024-2015,2026-10-24T20:15:37.851+02:00,rel71.58,S3,fail,4+,7489,82,16392,,34206,21,7,rel71.58-s3-hardware-qa-20261024.md
+s3-20261024-2132,2026-10-24T21:32:18.990+02:00,rel71.58,S3,fail,2,4959,83,4621,,10145,14,7,rel71.58-s3-hardware-qa-20261024.md
+s3-20261024-2143,2026-10-24T21:43:20.848+02:00,rel71.58,S3,unknown,unknown,5096,84,1983,,9829,9,7,rel71.58-s3-hardware-qa-20261024.md
+s3-20261024-7159,2026-10-24T23:17:09.795+02:00,rel71.59,S3,fail,multiple,4077,84,,,,0,7,rel71.59-s3-firsttouch-qa-20261024.md
+lock-20261024-7159,2026-10-24T23:18:49.328+02:00,rel71.59,LOCK,pass,1,,83,1917,4742,,14,7,rel71.59-s3-firsttouch-qa-20261024.md
+lock-20261024-7155-rollback2,2026-10-24T23:28:02.582+02:00,rel71.55,LOCK,pass,1,,302,1931,4297,,16,7,rel71.55-pegasus-20261023-postinstall-gate.md
+lock-20261025-7160-1,2026-10-25T00:07:00.252+02:00,rel71.60,LOCK,fail,2,,83,7885,,,8,7,rel71.60-s3-prepark-reference-20261024.md
+lock-20261025-7161-1,2026-10-25T02:02:04.683+02:00,rel71.61,LOCK,fail,2,,82,7453,,,7,7,rel71.61-score-cache-qa-20261025.md
+s3-20261025-7162-natural-2106,2026-10-25T21:06:08.872+01:00,rel71.62,S3,fail,multiple,37625,83,,,,,7,rel71.62-fast-retry-qa-20261025.md
+lock-20261025-7162-after-s3-2107,2026-10-25T21:07:13.540+01:00,rel71.62,LOCK,pass,1,,84,1956,4843,,9,7,rel71.62-fast-retry-qa-20261025.md
+lock-20261025-7163-2230,2026-10-25T22:30:16.402+01:00,rel71.63,LOCK,pass,1,,82,1869,,,15,7,rel71.63-s3-early-partial-qa-20261025.md
+s3-20261025-7163-2255,2026-10-25T22:55:23.880+01:00,rel71.63,S3,fail,2,4668,83,4339,,12555,15,7,rel71.63-s3-early-partial-qa-20261025.md
+boot-20261026-7164-0844,2026-10-26T08:44:48.208+01:00,rel71.64,BOOT,pass,1,,83,1811,7238,,20,7,rel71.64-s3-presleep-fresh-qa-20261025.md
+lock-20261026-7164-0846,2026-10-26T08:46:03.649+01:00,rel71.64,LOCK,pass,1,,86,1994,4797,,17,7,rel71.64-s3-presleep-fresh-qa-20261025.md
+s3-20261026-7164-1120,2026-10-26T11:20:17.890+01:00,rel71.64,S3,unknown,unknown,3789,83,2995,,9541,20,7,rel71.64-s3-presleep-fresh-qa-20261025.md
+lock-20261026-7165-1249,2026-10-26T12:49:26.854306+01:00,rel71.65,LOCK,unknown,unknown,,83,1975,,,15,7,rel71.65-cleanup-settle-qa-20261026.md
+s3-20261026-7165-natural-1609,2026-10-26T16:09:27.932011+01:00,rel71.65,S3,fail,3,13422,83,3511,,18082,16,7,rel71.65-cleanup-settle-qa-20261026.md
+lock-20261026-7166-1701,2026-10-26T17:01:46.587289+01:00,rel71.66,LOCK,pass,1,,83,1875,5539,,13,7,rel71.66-s3-long-first-qa-20261026.md
+s3-20261026-7166-natural-2225,2026-10-26T22:25:48.846794+01:00,rel71.66,S3,fail,multiple,5844,83,,,,,7,rel71.66-s3-long-first-qa-20261026.md
+lock-20261026-7167-2323,2026-10-26T23:22:51.043754+01:00,rel71.67,LOCK,pass,1,,291,1898,5523,,7,7,rel71.67-fdt-proof-tls-diag-qa-20261026.md
+lock-20261026-7167-2332,2026-10-26T23:32:13.237443+01:00,rel71.67,LOCK,pass,1,,83,1878,4757,,14,7,rel71.67-fdt-proof-tls-diag-qa-20261026.md
+s3-20261026-7167-natural-2339,2026-10-26T23:39:41.921373+01:00,rel71.67,S3,unknown,~2 uncertain,9665,82,1993,,13129,13,7,rel71.67-fdt-proof-tls-diag-qa-20261026.md
+lock-20261027-7168-0019,2026-10-27T00:19:58.428781+01:00,rel71.68,LOCK,fail,2,,83,6872,,,12,7,rel71.68-s3-long-first-plus-fdt-proof-qa.md
+lock-20261027-7168-0020,2026-10-27T00:20:11.882466+01:00,rel71.68,LOCK,pass,1,,82,1860,,,7,7,rel71.68-s3-long-first-plus-fdt-proof-qa.md
+s3-20261027-7168-natural-0021,2026-10-27T00:21:36.860422+01:00,rel71.68,S3,fail,many,,,,,,,7,rel71.68-s3-long-first-plus-fdt-proof-qa.md
+lock-20261027-7169-0204,2026-10-27T02:04:33.795536+01:00,rel71.69,LOCK,pass,1,,51,1374,,,7,7,rel71.69-hardware-final-20261027.md
+lock-20261027-7169-s4resume-1457,2026-10-27T14:57:25.932538+01:00,rel71.69,S4,pass,1,,85,1826,,,11,7,rel71.69-hardware-final-20261027.md
+s3-20261027-7169-natural-1458,2026-10-27T14:58:45.886110+01:00,rel71.69,S3,pass,1,5153,83,2054,,8218,15,7,rel71.69-hardware-final-20261027.md
+s4-20261027-7169-1719-unknown,2026-10-27T17:19:09.649000+01:00,rel71.69,S4,unknown,unknown,,83,,,,20,7,rel71.69-s4-hibernate-failure-20261027.md
+s4-20261027-7169-1754-fail,2026-10-27T17:54:03.206357+01:00,rel71.69,S4,fail,unknown,38689,83,,,,,7,rel71.69-s4-hibernate-failure-20261027.md
+lock-20261027-7170-2034,2026-10-27T20:34:32.356875+01:00,rel71.70,LOCK,pass,1,,53,1400,,,7,7,rel71.71-B-speed-bench-qa-20261027.md
+s4-20261027-7170-2053,2026-10-27T20:53:04.622000+01:00,rel71.70,S4,fail,2 (operator),5493,83,3052,,,7,7,rel71.71-B-speed-bench-qa-20261027.md
+lock-20261027-7171-2235,2026-10-27T22:35:30.395620+01:00,rel71.71,LOCK,pass,1,,52,1254,,,15,7,rel71.71-B-speed-bench-qa-20261027.md
+s3-20261027-7171-natural-2238,2026-10-27T22:38:19.843832+01:00,rel71.71,S3,fail,2,2403,72,1563,,9448,11,7,rel71.71-B-speed-bench-qa-20261027.md
+s4-20261027-7171-2302,2026-10-27T23:02:21.003027+01:00,rel71.71,S4,pass,1,4826,83,1748,,8308,8,7,rel71.71-B-speed-bench-qa-20261027.md
+s3-20261027-7173-2354-regression,2026-10-27T23:53:59+01:00,rel71.73,S3,fail,5+ (operator),4740,71,,,,17,7,rel71.74-held-finger-resume-qa-20261027.md
+s4-20261027-7173-2357-regression,2026-10-27T23:57:04+01:00,rel71.73,S4,fail,5-6 (operator),18379,83,,,,12,7,rel71.74-held-finger-resume-qa-20261027.md
+lock-20261030-qa42-0144,2026-10-30T01:44:28.208327+01:00,rel71.74-qa42,LOCK,pass,1,,52,1181,,,13,7,rel71.74-qa42-fdt-typed32-20261030-lock.md
+lock-20261030-qa42-1018-fail,2026-10-30T10:18:03.371885+01:00,rel71.74-qa42,LOCK,fail,multiple (operator),,51,,,,,7,rel71.74-qa42-fail-before-reboot-20261030.md
+lock-20261030-qa42-1026-fail,2026-10-30T10:26:25.669543+01:00,rel71.74-qa42,LOCK,fail,unknown (no success),,51,,,,,7,rel71.74-qa42-fail-before-reboot-20261030.md
+boot-20261031-qa42-2138,2026-10-31T21:38:22.075314+01:00,rel71.74-qa42,BOOT,pass,1,,84,1227,,,12,7,rel71.74-qa42-postreboot-hardware-20261031.md
+s3-20261031-qa42-2312,2026-10-31T23:12:13.855733+01:00,rel71.74-qa42,S3,pass,1,5498,85,1828,,9881,7,7,rel71.74-qa42-postreboot-hardware-20261031.md
+lock-20261031-qa42-2317,2026-10-31T23:17:51.805924+01:00,rel71.74-qa42,LOCK,fail,4 (operator),,84,1790,,,14,7,rel71.74-qa42-postreboot-hardware-20261031.md
+lock-20261031-qa42-2343-hidden-ui-fail,2026-10-31T23:43:39.438447+01:00,rel71.74-qa42,LOCK,fail,multiple (operator; exact unknown),,83,1758,,,16,7,rel71.74-qa42-kscreenlocker-hidden-ui-failure-20261031.md
+lock-20261101-qa42-kde47-hidden-ui-first-pose,2026-11-01T00:00:14.998207+01:00,rel71.74-qa42+kde47,LOCK,pass,1,,83,1800,,,14,7,rel71.74-qa42-kde47-first-touch-20261101.md
+lock-20261101-qa42-kde47-two-poses-0148,2026-11-01T01:48:01.584950+01:00,rel71.74-qa42+kde47,LOCK,fail,2,,240,1302,,,7,7,rel71.74-qa42-kde47-lock-two-poses-20261101.md
+lock-20261101-qa49-held-poll-0310,2026-11-01T03:10:00.468928+01:00,rel71.74-qa49+kde47,LOCK,pass,1,,52,1328,,,7,7,qa49-first-pose-lock-20261101.md
+lock-20261101-qa50-failed-0357,2026-11-01T03:57:04.139771+01:00,rel71.74-qa50+kde47,LOCK,fail,5+,,52,,,,4,7,qa50-rejected-lock-20261101.md
+s3-20261101-qa49-overnight-0949,2026-11-01T09:49:28.625864+01:00,rel71.74-qa49+kde47,S3,fail,5+ detected,3597,74,,,,3,7,qa49-s3-and-lock-regression-20261101.md
+lock-20261101-qa49-1017,2026-11-01T10:17:35.768375+01:00,rel71.74-qa49+kde47,LOCK,fail,3+ detected,,84,,,,3,7,qa49-s3-and-lock-regression-20261101.md
+lock-20261101-qa54-1212,2026-11-01T12:12:39.943902+01:00,rel71.74-qa54+kde47,LOCK,pass,1,,52,1158,,,12,7,qa54-lock-and-s3-first-physical-20261101.md
+s3-20261101-qa54-1213,2026-11-01T12:13:59.438957+01:00,rel71.74-qa54+kde47,S3,unknown,1-2 uncertain operator; 1 detected,3787,83,1711,,7384,7,7,qa54-lock-and-s3-first-physical-20261101.md
+lock-20261101-qa55-1557-regression,2026-11-01T15:57:18.020806+01:00,rel71.74-qa55+kde47,LOCK,fail,5 (detected; success on 5th),,72,22043,,,7,7,qa55-lock-s3-regression-and-rollback-20261101.md
+s3-20261101-qa55-1558-fail,2026-11-01T15:58:31.575078+01:00,rel71.74-qa55+kde47,S3,fail,"8+ detected, no success",3555,83,,,,3,7,qa55-lock-s3-regression-and-rollback-20261101.md
+lock-20261101-qa56-1633,2026-11-01T16:33:19.842273+01:00,rel71.74-qa56+kde47,LOCK,pass,1,,51,1193,,,7,7,qa56-lock-and-s3-first-hardware-20261101.md
+s3-20261101-qa56-1634,2026-11-01T16:34:11.890969+01:00,rel71.74-qa56+kde47,S3,fail,2,3542,84,1679,,11780,7,7,qa56-lock-and-s3-first-hardware-20261101.md
+lock-20261101-qa56-165011,2026-11-01T16:50:11.532834+01:00,rel71.74-qa56+kde47,LOCK,fail,2 detected; second success,,84,1719,,,16,7,qa56-followup-lock-s3-20261101.md
+lock-20261101-qa56-165023,2026-11-01T16:50:23.993116+01:00,rel71.74-qa56+kde47,LOCK,unknown,1 detected; physical unconfirmed,,83,1696,,,10,7,qa56-followup-lock-s3-20261101.md
+lock-20261101-qa56-165032,2026-11-01T16:50:32.084544+01:00,rel71.74-qa56+kde47,LOCK,unknown,1 detected; physical unconfirmed,,84,1713,,,13,7,qa56-followup-lock-s3-20261101.md
+lock-20261101-qa56-165039,2026-11-01T16:50:39.274858+01:00,rel71.74-qa56+kde47,LOCK,unknown,1 detected; physical unconfirmed,,84,1725,,,7,7,qa56-followup-lock-s3-20261101.md
+s3-20261101-qa56-165120,2026-11-01T16:51:20.881670+01:00,rel71.74-qa56+kde47,S3,unknown,1 detected; physical unconfirmed,4147,84,1794,,6852,7,7,qa56-followup-lock-s3-20261101.md
+s3-20261101-qa56-165147,2026-11-01T16:51:47.548953+01:00,rel71.74-qa56+kde47,S3,unknown,2 detected; physical unconfirmed,4155,83,1732,,11317,7,7,qa56-followup-lock-s3-20261101.md
+lock-20261101-qa57-194519,2026-11-01T19:45:19.316071+01:00,rel71.74-qa57+kde47,LOCK,pass,1,,60,1157,,,9,7,qa57-lock-s3-first-hardware-20261101.md
+s3-20261101-qa57-195500,2026-11-01T19:55:00.285666+01:00,rel71.74-qa57+kde47,S3,unknown,2 detected; physical count unconfirmed,3781,84,1227,,,7,7,qa57-lock-s3-first-hardware-20261101.md
+s3-20261101-qa57-214932,2026-11-01T21:49:32.205312+01:00,rel71.74-qa57+kde47,S3,pass,1,3538,83,1173,,6609,21,7,qa57-lock-s3-first-hardware-20261101.md
+s3-20261101-qa57-fprintd259-222809,2026-11-01T22:28:09.499958+01:00,rel71.74-qa57+fprintd-mr259,S3,fail,5,3530,83,16356,,23045,7,7,qa57-s3-regression-after-fprintd-mr259-20261101.md
+s3-20261102-qa59-132144,2026-11-02T13:21:44.318871+01:00,rel71.74-qa59+kde47,S3,fail,3 detected; user 3-4,3537,88,19492,,25991,7,7,qa59-s3-abc-20261102.md
+s3-20261102-qa59-132231,2026-11-02T13:22:31.373465+01:00,rel71.74-qa59+kde47,S3,pass,1,3544,83,1248,,5918,7,7,qa59-s3-abc-20261102.md
+s3-20261102-qa59-132429,2026-11-02T13:24:29.030792+01:00,rel71.74-qa59+kde47,S3,unknown,2 user reported; 1 detected mixed deep+s2idle,3538,85,1232,,7556,7,7,qa59-s3-abc-20261102.md
